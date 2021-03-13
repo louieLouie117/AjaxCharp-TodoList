@@ -1,4 +1,5 @@
 @using AjaxCsharp.Models;
+@model TodoList
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,19 +9,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/style.css">
     <title>Dashboard</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#postForm').submit(function (event) {
+                event.preventDefault();
+                alert('button test ajax was click')
+
+                let item = $('#Item').val()
+
+                var jsonData = {
+                    item: item,
+                }
+                console.log(jsonData)
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("NewItemHandler", "Home")',
+                    data: jsonData,
+                })
+            })
+        })
+    </script>
 </head>
 
 <body>
     <div class="dashboardHeader_container">
-        <h1>Welcome @ViewBag.DisplayUser.FirstName, to Ajax C# todolist app</h1>
+        <h1>Welcome @ViewBag.ToDisplay.FirstName, to Ajax C# todolist app</h1>
         <a href="/logout"> logout</a>
     </div>
 
 
 
+    <div class="form-postContainer">
+        <main>
+            <form id="postForm" asp-action='postSale' method='POST' asp-controller='Home'>
+                <input asp-for='Item' type='text' placeholder='New Item:'>
 
-    </tbody>
-    </table>
+                @* <button type="button" id="submitForm">test ajax</button> *@
+
+                <input type="submit" value="+">
+            </form>
+
+
+        </main>
+
+    </div>
 
 
 </body>
