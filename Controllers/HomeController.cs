@@ -64,7 +64,7 @@ namespace AjaxCsharp.Controllers
             int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
             // filter user in session with db
             User UserIndb = _context.Users.FirstOrDefault(u => u.UserId == UserIdInSession);
-            ViewBag.DisplayUser = UserIndb;
+            ViewBag.ToDisplay = UserIndb;
 
 
             // Get all guest from db set
@@ -79,6 +79,39 @@ namespace AjaxCsharp.Controllers
 
 
 
+        [HttpPost("postSale")]
+        public IActionResult NewItemHandler(TodoList FromForm)
+        {
+
+            // JsonResult
+            System.Console.WriteLine("test button was click");
+            System.Console.WriteLine("the backend has been reached");
+
+            System.Console.WriteLine($"FromForm: {FromForm}");
+            System.Console.WriteLine($"Street name: {FromForm.Item}");
+
+            int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
+
+
+
+            var Entry = new TodoList
+            {
+                UserId = UserIdInSession,
+                Item = FromForm.Item,
+
+            };
+
+            System.Console.WriteLine($"Entry to be send to db {Entry}");
+
+
+
+
+
+            _context.Add(Entry);
+            _context.SaveChanges();
+
+            return Json(new { Status = "success", FromForm });
+        }
 
 
 
