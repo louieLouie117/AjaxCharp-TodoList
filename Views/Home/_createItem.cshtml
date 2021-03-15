@@ -38,17 +38,37 @@
 
                 $.each(data, function () {
                     $.each(this, function (id, v) {
-                        console.log("loop:", data.data[id])
-                        console.log("item:", data.data[id].item)
+                        @* console.log(`index: ${id}`) *@
+                            @* console.log(` value:`, v) *@
 
-                        let userItem = data.data[id].item;
 
-                        console.log(userItem)
-                        console.log("need to find a way to fetch data when adding item")
 
-                        $("#userItems").append(`<li> ${userItem} </li>`);
-                        return userItem;
+                            let itemIndex = id;
+                        let itemId = v.todoListId;
+                        let itemTitle = v.item;
+
+
+
+
+                        if (itemId === 3) {
+                            console.log("item already rendering")
+                        } else {
+                            console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
+
+                            $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
+
+
+                        }
+
+                        return itemId;
+
+
                     });
+
+
+
+                    let checkItem = document.getElementById("item2").id;
+                    console.log("check:", checkItem)
 
                 });
 
@@ -64,13 +84,12 @@
 
             })
 
-            @* fetch data on page load *@
-                @* $.get("/displayTodoList", data => { *@
-                @* PopulatePage(data); *@
-                @* }) *@
+            $.get("/displayTodoList", data => {
+                PopulatePage(data);
+            })
 
 
-                @* end *@
+            @* end *@
         })
     </script>
 </head>
