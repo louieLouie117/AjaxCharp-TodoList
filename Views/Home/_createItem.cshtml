@@ -52,20 +52,15 @@
 
                 });
 
-
             }
 
-            $('#refreshData').click(function (event) {
-                alert("fetching data...")
+            $('#fetchData').click(function (event) {
+                alert("fetcheing data...")
                 event.preventDefault();
-
-
 
                 $.get("/displayTodoList", data => {
                     PopulatePage(data);
                 })
-
-
 
             })
 
@@ -103,7 +98,7 @@
 
     </div>
 
-    <button id="refreshData">Fetch Data</button>
+    <button id="fetchData">Fetch Data</button>
 
 
     @* <h1>My Todo List with viewbag</h1>
