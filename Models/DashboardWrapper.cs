@@ -1,16 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AjaxCsharp.Models
 {
-    public class indexWrapper
+    public class DashboardWrapper
     {
 
-        public LoginUser LogInAUser { get; set; }
-        public User regUser { get; set; }
-
         public TodoList TodoList { get; set; }
+
+
+        public List<TodoList> TodoListItems { get; set; }
+
+
+
 
 
     }
