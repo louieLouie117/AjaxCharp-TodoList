@@ -70,10 +70,41 @@ namespace AjaxCsharp.Controllers
             // Get all guest from db set
 
 
+            ViewBag.TodoListItems = _context.TodoLists
+           .Where(us => us.UserId == UserIdInSession)
+           .ToList();
 
 
-            return View("dashboard");
+            DashboardWrapper wMode = new DashboardWrapper();
+
+
+
+
+            return View("dashboard", wMode);
         }
+
+
+        [HttpGet("displayTodoList")]
+
+        public JsonResult displayTodoList()
+        {
+            int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
+
+            DashboardWrapper wMode = new DashboardWrapper();
+
+
+            List<TodoList> itemList = _context.TodoLists
+            .Where(us => us.UserId == UserIdInSession)
+            .ToList();
+
+            //     ViewBag.TodoListItems = _context.TodoLists
+            //    .Where(us => us.UserId == UserIdInSession)
+            //    .ToList();
+
+            return Json(new { data = itemList });
+
+        }
+
 
 
 
