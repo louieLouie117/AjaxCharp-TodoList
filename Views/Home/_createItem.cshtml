@@ -71,9 +71,15 @@
                 alert("fetcheing data...")
                 event.preventDefault();
 
-                $.get("/displayTodoList", data => {
+                $.getJSON("/displayTodoList", data => {
                     FetchData(data);
                 })
+
+
+                @* $('#userItems').load("/displayTodoList", data => {
+
+                        console.log("in load",data)
+                        }) *@
 
             })
 
@@ -86,17 +92,12 @@
                         @* console.log(`index: ${id}`) *@
                             @* console.log(` value:`, v) *@
 
-
-
                             let itemIndex = id;
                         let itemId = v.todoListId;
                         let itemTitle = v.item;
 
 
-                        if (null) {
-                            $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
 
-                        }
 
                         let checkItem = document.getElementById(itemId).id;
                         console.log("check:", checkItem)
