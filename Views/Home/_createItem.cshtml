@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+
             $('#postForm').submit(function (event) {
                 event.preventDefault();
                 alert('button test ajax was click')
@@ -25,12 +26,36 @@
                 console.log("new Item", jsonData)
 
                 $.ajax({
-                    type: "POST",
                     url: '@Url.Action("NewItemHandler", "Home")',
+                    type: "POST",
                     data: jsonData,
+                    success: successFN,
+                    error: errorFN,
                 })
 
             })
+
+
+            function successFN(result) {
+                console.log("setting results")
+                $('#userItems').load("/displayTodoList #userItems", data => {
+
+                    @* data = $.parseJSON(data); *@
+                        data = JSON.parse(data);
+
+
+                    console.log("in load", data)
+                    FetchData(data);
+
+                })
+            }
+
+            function errorFN(xhr, status, strErr) {
+                console.log("There was an error!")
+            }
+
+
+
 
             $.get("/displayTodoList", data => {
                 PopulatePage(data);
@@ -65,15 +90,15 @@
                 alert("fetcheing data...")
                 event.preventDefault();
 
-                $.getJSON("/displayTodoList", data => {
+                $('#userItems').load("/displayTodoList #userItems", data => {
+
+                    @* data = $.parseJSON(data); *@
+                        data = JSON.parse(data);
+
+                    console.log("in load", data)
                     FetchData(data);
+
                 })
-
-
-                @* $('#userItems').load("/displayTodoList", data => {
-
-                        console.log("in load",data)
-                        }) *@
 
             })
 
@@ -81,21 +106,18 @@
                 console.log("user Data", data.data)
 
                 $.each(data.data, function (i, v) {
-                    console.log(v.item)
+                    @* console.log(v.item) *@
 
-                    let itemIndex = i;
+                        let itemIndex = i;
                     let itemId = v.todoListId;
                     let itemTitle = v.item;
 
 
-                    let checkItem = document.getElementById(itemId).id;
-                    console.log("check:", checkItem)
-                    if (itemId == checkItem) {
-                        console.log("item already rendering")
-                    } else {
-                        console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
-                        $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
-                    }
+
+                    console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
+                    @* $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`); *@
+                        $(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`).appendTo("#userItems");
+
 
 
 
