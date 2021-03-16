@@ -38,28 +38,22 @@
 
             function PopulatePage(data) {
                 console.log("user Data", data.data)
-                $.each(data, function () {
-                    $.each(this, function (id, v) {
-                        @* console.log(`index: ${id}`) *@
-                            @* console.log(` value:`, v) *@
+                $.each(data.data, function (id, v) {
+                    @* console.log(`index: ${id}`) *@
+                        @* console.log(` value:`, v) *@
+
+                        let itemIndex = id;
+                    let itemId = v.todoListId;
+                    let itemTitle = v.item;
 
 
+                    console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
 
-                            let itemIndex = id;
-                        let itemId = v.todoListId;
-                        let itemTitle = v.item;
+                    $("#userItems").append(`<li id="${itemId}"> ${itemIndex} ${itemTitle} </li>`);
 
-
-                        console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
-
-                        $("#userItems").append(`<li id="${itemId}"> ${itemIndex} ${itemTitle} </li>`);
+                    return itemId;
 
 
-
-                        return itemId;
-
-
-                    });
 
                 });
 
@@ -86,43 +80,28 @@
             function FetchData(data) {
                 console.log("user Data", data.data)
 
+                $.each(data.data, function (i, v) {
+                    console.log(v.item)
 
-                $.each(data, function () {
-                    $.each(this, function (id, v) {
-                        @* console.log(`index: ${id}`) *@
-                            @* console.log(` value:`, v) *@
-
-                            let itemIndex = id;
-                        let itemId = v.todoListId;
-                        let itemTitle = v.item;
+                    let itemIndex = i;
+                    let itemId = v.todoListId;
+                    let itemTitle = v.item;
 
 
-
-
-                        let checkItem = document.getElementById(itemId).id;
-                        console.log("check:", checkItem)
-
-
-
-                        if (itemId == checkItem) {
-                            console.log("item already rendering")
-                        } else {
-                            console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
-
-                            $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
-
-
-                        }
-
-                        return itemId;
-
-
-                    });
+                    let checkItem = document.getElementById(itemId).id;
+                    console.log("check:", checkItem)
+                    if (itemId == checkItem) {
+                        console.log("item already rendering")
+                    } else {
+                        console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
+                        $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
+                    }
 
 
 
+                })
 
-                });
+
 
             };
 
