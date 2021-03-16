@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+
             $('#postForm').submit(function (event) {
                 event.preventDefault();
                 alert('button test ajax was click')
@@ -25,12 +26,36 @@
                 console.log("new Item", jsonData)
 
                 $.ajax({
-                    type: "POST",
                     url: '@Url.Action("NewItemHandler", "Home")',
+                    type: "POST",
                     data: jsonData,
+                    success: successFN,
+                    error: errorFN,
                 })
 
             })
+
+
+            function successFN(result) {
+                console.log("setting results")
+                $('#userItems').load("/displayTodoList #userItems", data => {
+
+                    @* data = $.parseJSON(data); *@
+                        data = JSON.parse(data);
+
+
+                    console.log("in load", data)
+                    FetchData(data);
+
+                })
+            }
+
+            function errorFN(xhr, status, strErr) {
+                console.log("There was an error!")
+            }
+
+
+
 
             $.get("/displayTodoList", data => {
                 PopulatePage(data);
@@ -38,28 +63,22 @@
 
             function PopulatePage(data) {
                 console.log("user Data", data.data)
-                $.each(data, function () {
-                    $.each(this, function (id, v) {
-                        @* console.log(`index: ${id}`) *@
-                            @* console.log(` value:`, v) *@
+                $.each(data.data, function (id, v) {
+                    @* console.log(`index: ${id}`) *@
+                        @* console.log(` value:`, v) *@
+
+                        let itemIndex = id;
+                    let itemId = v.todoListId;
+                    let itemTitle = v.item;
 
 
+                    console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
 
-                            let itemIndex = id;
-                        let itemId = v.todoListId;
-                        let itemTitle = v.item;
+                    $("#userItems").append(`<li id="${itemId}"> ${itemIndex} ${itemTitle} </li>`);
 
-
-                        console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
-
-                        $("#userItems").append(`<li id="${itemId}"> ${itemIndex} ${itemTitle} </li>`);
+                    return itemId;
 
 
-
-                        return itemId;
-
-
-                    });
 
                 });
 
@@ -71,8 +90,14 @@
                 alert("fetcheing data...")
                 event.preventDefault();
 
-                $.get("/displayTodoList", data => {
+                $('#userItems').load("/displayTodoList #userItems", data => {
+
+                    @* data = $.parseJSON(data); *@
+                        data = JSON.parse(data);
+
+                    console.log("in load", data)
                     FetchData(data);
+
                 })
 
             })
@@ -80,48 +105,25 @@
             function FetchData(data) {
                 console.log("user Data", data.data)
 
+                $.each(data.data, function (i, v) {
+                    @* console.log(v.item) *@
 
-                $.each(data, function () {
-                    $.each(this, function (id, v) {
-                        @* console.log(`index: ${id}`) *@
-                            @* console.log(` value:`, v) *@
-
-
-
-                            let itemIndex = id;
-                        let itemId = v.todoListId;
-                        let itemTitle = v.item;
-
-
-                        if (null) {
-                            $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
-
-                        }
-
-                        let checkItem = document.getElementById(itemId).id;
-                        console.log("check:", checkItem)
+                        let itemIndex = i;
+                    let itemId = v.todoListId;
+                    let itemTitle = v.item;
 
 
 
-                        if (itemId == checkItem) {
-                            console.log("item already rendering")
-                        } else {
-                            console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
-
-                            $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`);
-
-
-                        }
-
-                        return itemId;
-
-
-                    });
+                    console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`);
+                    @* $("#userItems").append(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`); *@
+                        $(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`).appendTo("#userItems");
 
 
 
 
-                });
+                })
+
+
 
             };
 
