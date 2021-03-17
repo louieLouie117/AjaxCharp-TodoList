@@ -16,48 +16,48 @@
 
             $.get("/displayTodoList", data => {
                 RenderData(data);
-            })
+            });
 
             $('#fetchData').click(function (event) {
-                alert("fetcheing data...")
-                LoadData()
-            })
+                alert("fetcheing data...");
+                LoadData();
+            });
 
             $('#postForm').submit(function (event) {
                 event.preventDefault();
-                alert('button test ajax was click')
-                let item = $('#Item').val()
+                alert('button test ajax was click');
+                let item = $('#Item').val();
                 var jsonData = {
                     item: item,
-                }
-                console.log("new Item", jsonData)
+                };
+                console.log("new Item", jsonData);
                 $.ajax({
                     url: '@Url.Action("NewItemHandler", "Home")',
                     type: "POST",
                     data: jsonData,
-                    success: successFN,
-                    error: errorFN,
-                    complete: completeFN
-                })
+                    success: SuccessStatus,
+                    error: ErrorStatus,
+                    complete: CompleteStatus
+                });
             });
 
-            const successFN = (result) => {
-                console.log("Success...")
-                LoadData()
+            const SuccessStatus = (result) => {
+                console.log("Success...");
+                LoadData();
             };
 
-            const errorFN = (xhr, status, strErr) => {
-                console.log("There was an error!")
+            const ErrorStatus = (xhr, status, strErr) => {
+                console.log("There was an error!");
             };
 
-            const completeFN = (xhr, status) => {
-                console.log("Ajax has completed...")
+            const CompleteStatus = (xhr, status) => {
+                console.log("Ajax has completed...");
             };
 
             const LoadData = () => {
                 $('#userItems').load("/displayTodoList #userItems", data => {
                     data = JSON.parse(data);
-                    console.log("in load", data)
+                    console.log("in load", data);
                     RenderData(data);
                     @* data = $.parseJSON(data); deprecated*@
                 });
@@ -70,13 +70,16 @@
                     let itemIndex = i;
                     let itemId = v.todoListId;
                     let itemTitle = v.item;
-                    $(`<li id="item${itemId}"> ${itemIndex} ${itemTitle} </li>`).appendTo("#userItems");
+                    $(`<li id="${itemId}">
+                         <p>${itemIndex} ${itemTitle}</p> 
+                         <a href="#">edit</a>
+                         <a href="#">delete</a>
+                    </li>`).appendTo("#userItems");
                     @* console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`); *@
                 });
             };
 
-            @* end *@
-        })
+        });
     </script>
 
 </head>
@@ -102,9 +105,11 @@
 
         </main>
 
+        <button id="fetchData">Fetch Data</button>
+
+
     </div>
 
-    <button id="fetchData">Fetch Data</button>
 
 
     @* <h1>My Todo List with viewbag</h1>
