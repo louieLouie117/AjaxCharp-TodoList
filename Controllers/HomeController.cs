@@ -92,7 +92,6 @@ namespace AjaxCsharp.Controllers
 
             DashboardWrapper wMode = new DashboardWrapper();
 
-
             List<TodoList> itemList = _context.TodoLists
             .Where(us => us.UserId == UserIdInSession)
             .ToList();
@@ -106,10 +105,6 @@ namespace AjaxCsharp.Controllers
         }
 
 
-
-
-
-
         [HttpPost("postSale")]
         public IActionResult NewItemHandler(TodoList FromForm)
         {
@@ -117,14 +112,13 @@ namespace AjaxCsharp.Controllers
             // JsonResult
             System.Console.WriteLine("test button was click");
             System.Console.WriteLine("the backend has been reached");
-
             System.Console.WriteLine($"FromForm: {FromForm}");
             System.Console.WriteLine($"Street name: {FromForm.Item}");
 
+            // get user form session
             int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
 
-
-
+            // data to save to db
             var Entry = new TodoList
             {
                 UserId = UserIdInSession,
@@ -134,16 +128,27 @@ namespace AjaxCsharp.Controllers
 
             System.Console.WriteLine($"Entry to be send to db {Entry}");
 
-
-
-
-
+            // save to db
             _context.Add(Entry);
             _context.SaveChanges();
 
             return Json(new { Status = "success", FromForm });
         }
 
+        [HttpGet("EditHandler")]
+
+        public IActionResult EditHandler(TodoList Data)
+        {
+            System.Console.WriteLine("you have connected to the backend");
+            System.Console.WriteLine($"itemID: {Data.TodoListId}");
+
+            int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
+
+
+            return Json(new { Status = "success", Data });
+
+
+        }
 
 
 

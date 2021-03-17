@@ -72,14 +72,55 @@
                     let itemTitle = v.item;
                     $(`<li id="${itemId}">
                          <p>${itemIndex} ${itemTitle}</p> 
-                         <a href="#">edit</a>
-                         <a href="#">delete</a>
+                         @* <button $("#${itemId}").click(function(){alert("teting")" id="${itemId}">edit</button> *@
+                         <button onclick="EditHandler(event)" id="${itemId}">edit</button>
+                         <a href="#" id="${itemId}">delete</a>
                     </li>`).appendTo("#userItems");
                     @* console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`); *@
+
                 });
+
             };
 
+
         });
+
+        const EditHandler = (e) => {
+            alert("edit handler was click")
+            console.log("id to select", e.target.id)
+
+            let idSelected = e.target.id;
+
+            $(`#${idSelected}`).click(function (e) {
+
+                let itemId = e.target.id
+                let urlLink = "EditHanler/" + itemId
+
+                var jsonData = {
+                    todoListId: itemId,
+                };
+                console.log("item id:", itemId)
+                $.ajax({
+                    url: '@Url.Action("EditHandler", "Home")',
+                    type: "GET",
+                    data: jsonData,
+                    success: SuccessStatus,
+                    error: ErrorStatus,
+                    complete: CompleteStatus
+                });
+            })
+            const SuccessStatus = (result) => {
+                console.log("Success...");
+            };
+
+            const ErrorStatus = (xhr, status, strErr) => {
+                console.log("There was an error!");
+            };
+
+            const CompleteStatus = (xhr, status) => {
+                console.log("Ajax has completed...");
+            };
+        }
     </script>
 
 </head>
