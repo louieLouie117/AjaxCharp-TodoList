@@ -47,3 +47,27 @@ thead{
     grid-template-columns: 4fr 1fr 1fr ;
     align-items: center;
 }
+
+ul{
+    padding: 0;
+}
+
+li{
+    padding: 0;
+    max-width: 27em;
+    display: grid;
+    grid-template-columns: 1fr repeat(2, 50px);
+    align-items: center;
+}
+
+.form-postContainer{
+    position: sticky;
+    top: 0;
+}
+
+.form-postContainer form{
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.398);
+    margin-bottom: 10px;
+}
