@@ -152,8 +152,8 @@
                     $(`<li id="${itemId}">
                         <p id="itemText${itemId}" > ${itemTitle}</p> 
                          @* <button $("#${itemId}").click(function(){alert("teting")" id="${itemId}">edit</button> *@
-                         <button onclick="DeleteHandler(event)" id="${itemId}">delete</button>
-                         <button id="${itemId}">Edit</button>
+                        <button id="${itemId}" onclick="DeleteHandler(event)" >delete</button>
+                        <button id="${itemId}" onclick="EditHandler(event)">Edit</button>
                     </li>`).appendTo("#userItems");
                     @* console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`); *@
 
