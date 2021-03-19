@@ -135,17 +135,22 @@ namespace AjaxCsharp.Controllers
             return Json(new { Status = "success", FromForm });
         }
 
-        [HttpGet("EditHandler")]
+        [HttpGet("DeleteHandler")]
 
-        public IActionResult EditHandler(TodoList Data)
+        public IActionResult DeleteHandler(TodoList DataId)
         {
             System.Console.WriteLine("you have connected to the backend");
-            System.Console.WriteLine($"itemID: {Data.TodoListId}");
+            System.Console.WriteLine($"itemID: {DataId.TodoListId}");
 
             int UserIdInSession = (int)HttpContext.Session.GetInt32("UserId");
 
 
-            return Json(new { Status = "success", Data });
+            TodoList GetId = _context.TodoLists.SingleOrDefault(l => l.TodoListId == DataId.TodoListId);
+
+            _context.TodoLists.Remove(GetId);
+            _context.SaveChanges();
+
+            return Json(new { Status = "success", DataId });
 
 
         }
