@@ -14,6 +14,13 @@ form{
     max-width: 400px;
 }
 
+#editItemBTN{
+    display: none;
+    background: rgb(56, 127, 220);
+    color: white;
+    font: 1em sans-serif;
+}
+
 .regHeader_container{
     display: grid;
     grid-template-columns: 1fr  1fr ;
@@ -71,3 +78,4 @@ li{
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.398);
     margin-bottom: 10px;
 }
+

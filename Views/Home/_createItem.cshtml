@@ -89,6 +89,10 @@
 
         const EditHandler = (e) => {
             alert("edit button was click")
+            document.getElementById("newItemBTN").style.display = "none";
+            document.getElementById("editItemBTN").style.display = "block";
+
+
             console.log(e.target)
             let itemId = e.target.id;
             let itemNeeded = "itemText" + itemId
@@ -103,7 +107,6 @@
             $(`#${itemId}`).click(function (e) {
 
                 let itemId = e.target.id
-                let urlLink = "EditHanler/" + itemId
 
                 var jsonData = {
                     todoListId: itemId,
@@ -122,6 +125,7 @@
             const SuccessStatus = (result) => {
                 console.log("Success...");
                 LoadData();
+
             };
 
             const ErrorStatus = (xhr, status, strErr) => {
@@ -158,11 +162,11 @@
                     @* console.log(`id: ${itemId} index: ${itemIndex} item: ${itemTitle}`); *@
 
                 });
-
-
             };
 
         }
+
+
 
         const DeleteHandler = (e) => {
             console.log("id to select", e.target.id)
@@ -172,7 +176,6 @@
             $(`#${idSelected}`).click(function (e) {
 
                 let itemId = e.target.id
-                let urlLink = "EditHanler/" + itemId
 
                 var jsonData = {
                     todoListId: itemId,
@@ -227,7 +230,6 @@
 
                 });
 
-
             };
 
 
@@ -251,7 +253,10 @@
 
                 @* <button type="button" id="submitForm">test ajax</button> *@
 
-                <input type="submit" value="+">
+
+                <input id="newItemBTN" type="submit" value="+">
+                <input id="editItemBTN" type="submit" value="Save">
+
             </form>
 
 
