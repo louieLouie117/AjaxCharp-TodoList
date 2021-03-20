@@ -25,27 +25,54 @@
 
             $('#postForm').submit(function (event) {
                 event.preventDefault();
+                let BTNtext = document.getElementById("newItemBTN").value;
+                console.log("button text:", BTNtext);
+
+
                 let item = $('#Item').val();
                 var jsonData = {
                     item: item,
                 };
+
+                let itemEditId = document.getElementById("itemBeingEditied").innerText;
+
+                var jsonEditData = {
+                    item: item,
+                    todoListId: itemEditId,
+                };
+
+
                 console.log("new Item", jsonData);
-                $.ajax({
-                    url: '@Url.Action("NewItemHandler", "Home")',
-                    type: "POST",
-                    data: jsonData,
-                    success: SuccessStatus,
-                    error: ErrorStatus,
-                    complete: CompleteStatus
-                });
+
+                if (BTNtext === "Save") {
+                    $.ajax({
+                        url: '@Url.Action("EditItemHandler", "Home")',
+                        type: "POST",
+                        data: jsonEditData,
+                        success: SuccessStatus,
+                        error: ErrorStatus,
+                        complete: CompleteStatus
+                    });
+                } else {
+                    $.ajax({
+                        url: '@Url.Action("NewItemHandler", "Home")',
+                        type: "POST",
+                        data: jsonData,
+                        success: SuccessStatus,
+                        error: ErrorStatus,
+                        complete: CompleteStatus
+                    });
+                }
+
             });
 
             const SuccessStatus = (result) => {
-                console.log("Success...");
+                console.log("Success...", result);
                 LoadData();
+                document.getElementById("newItemBTN").value = "+";
+                document.getElementById("newItemBTN").style.background = "Whitesmoke";
+                document.getElementById("newItemBTN").style.color = "Black";
                 document.getElementById("Item").value = "";
-
-
             };
 
             const ErrorStatus = (xhr, status, strErr) => {
@@ -89,8 +116,10 @@
 
         const EditHandler = (e) => {
             alert("edit button was click")
-            document.getElementById("newItemBTN").style.display = "none";
-            document.getElementById("editItemBTN").style.display = "block";
+            document.getElementById("newItemBTN").value = "Save";
+            document.getElementById("newItemBTN").style.background = "Blue";
+            document.getElementById("newItemBTN").style.color = "white";
+
 
 
             console.log(e.target)
@@ -98,29 +127,15 @@
             let itemNeeded = "itemText" + itemId
             console.log(itemNeeded)
 
+            document.getElementById("itemBeingEditied").innerText = itemId;
+
             let itemText = document.getElementById(itemNeeded).innerText;
             console.log("text", itemText)
             document.getElementById("Item").value = itemText;
 
+            document.getElementById(itemId).style.display = "none"
 
 
-            $(`#${itemId}`).click(function (e) {
-
-                let itemId = e.target.id
-
-                var jsonData = {
-                    todoListId: itemId,
-                };
-                console.log("item id:", itemId)
-                $.ajax({
-                    url: '@Url.Action("DeleteHandler", "Home")',
-                    type: "GET",
-                    data: jsonData,
-                    success: SuccessStatus,
-                    error: ErrorStatus,
-                    complete: CompleteStatus
-                });
-            })
 
             const SuccessStatus = (result) => {
                 console.log("Success...");
@@ -249,13 +264,13 @@
     <div class="form-postContainer">
         <main>
             <form id="postForm" asp-action='postSale' method='POST' asp-controller='Home'>
+                <label id="itemBeingEditied"></label>
                 <input asp-for='Item' type='text' placeholder='New Item:'>
 
                 @* <button type="button" id="submitForm">test ajax</button> *@
 
 
                 <input id="newItemBTN" type="submit" value="+">
-                <input id="editItemBTN" type="submit" value="Save">
 
             </form>
 

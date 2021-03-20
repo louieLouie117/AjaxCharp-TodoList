@@ -135,6 +135,24 @@ namespace AjaxCsharp.Controllers
             return Json(new { Status = "success", FromForm });
         }
 
+
+        [HttpPost("editItem")]
+        public IActionResult EditItemHandler(TodoList editItemId)
+
+        {
+
+            System.Console.WriteLine("you have reach the backend for editing!");
+            System.Console.WriteLine($"text from user: {editItemId.Item}");
+            System.Console.WriteLine($"need to get id {editItemId.TodoListId}");
+
+            TodoList GetItem = _context.TodoLists.FirstOrDefault(i => i.TodoListId == editItemId.TodoListId);
+            GetItem.TodoListId = editItemId.TodoListId;
+            GetItem.Item = editItemId.Item;
+            _context.SaveChanges();
+
+            return Json(new { Status = "success", editItemId });
+        }
+
         [HttpGet("DeleteHandler")]
 
         public IActionResult DeleteHandler(TodoList DataId)
